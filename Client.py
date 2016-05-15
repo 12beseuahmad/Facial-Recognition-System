@@ -65,8 +65,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
                         ccrop = image[y:y+h,x:x+w]
                         cv.imwrite('send.jpg',ccrop);
                         imgg = Image.open("send.jpg")
-                        #crop = Image.frombytes(ccrop['mode'],ccrop['size'],ccrop['pixels'])
-                        #cv.imshow("image",crop)
+
                         imag = {'pixels': imgg.tobytes(),'size': imgg.size,'mode': imgg.mode,}
                         serialize_img = pickle.dumps(imag)
                         print "sending image"
@@ -75,7 +74,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
                         print "sending length of image"
                         signal = sock.recv(4096)
                         if signal != "OK":
-                                print 'we are fucked'
+                                print 'No OK recieved'
                         print 'Sending pickle'
                         sent = sock.send(serialize_img)
                         print 'Pickle Sent'
